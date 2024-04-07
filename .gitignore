@@ -131,3 +131,4 @@ cython_debug/
 
 # Ignore VSCode settings
 .vscode/
+fun.code-workspace
