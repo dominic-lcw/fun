@@ -70,7 +70,7 @@ par(mfrow = c(1, 2))
 matplot(x, t(out), type = 'l', col = 'dodgerblue', main = 'Simulated Paths')
 lines(x, nu, type = 'l', lwd = 3, col = 'black')
 
-# PLot 2
+# Plot 2: 95% CI
 ub = apply(out, 2, function(x) quantile(x, 0.975))
 lb = apply(out, 2, function(x) quantile(x, 0.025))
 tp_blue = grDevices::adjustcolor("dodgerblue", alpha.f = 0.5)
