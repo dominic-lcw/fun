@@ -8,7 +8,7 @@ m <- function(x){
 x = seq(0, 1, length.out = 51)
 y = m(x)
 par(mfrow = c(1,1))
-plot(x, y, type = 'l', lwd = 2, cex.axis = 2, cex.lab = 2)
+plot(x, y, type = 'l', lwd = 2, cex.axis = 1, cex.lab = 1)
 
 
 ###-------------------------------------------------------------------
