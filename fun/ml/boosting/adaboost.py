@@ -29,8 +29,9 @@ def adaboost_m1(X, y, clf = None, M = 500) ->  Callable:
         y_pred = clf.predict(X)
         
         err = np.sum(w * (y != y_pred)) / np.sum(w)
-        alpha = np.log((1 - err) / err) if abs(err) > 1e-6 else 1
-        w = w * np.exp(-alpha * (y != y_pred))
+        alpha = np.log((1 - err)/err)
+        w = w * np.exp(alpha * (y != y_pred))
+        # w = w * np.exp(alpha * ((y != y_pred) * 2 - 1))
         models.append((clf, alpha))
 
     def predict(X_new):
