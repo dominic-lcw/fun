@@ -3,6 +3,7 @@ import logging
 
 import numpy as np
 import pandas as pd
+from sklearn.base import clone
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
@@ -25,13 +26,14 @@ def adaboost_m1(X, y, clf = None, M = 500) ->  Callable:
 
     models = []
     for m in range(M):
-        clf.fit(X, y, sample_weight=w)      # require sample_weight for fit
-        y_pred = clf.predict(X)
+        clf_i = clone(clf)
+        clf_i.fit(X, y, sample_weight=w)      # require sample_weight for fit
+        y_pred = clf_i.predict(X)
         
         err = np.sum(w * (y != y_pred)) / np.sum(w)
-        alpha = np.log((1 - err) / err) if abs(err) > 1e-6 else 1
-        w = w * np.exp(-alpha * (y != y_pred))
-        models.append((clf, alpha))
+        alpha = np.log((1 - err)/err)
+        w = w * np.exp(alpha * (y != y_pred))
+        models.append((clf_i, alpha))
 
     def predict(X_new):
         y_pred = np.zeros(X_new.shape[0])
