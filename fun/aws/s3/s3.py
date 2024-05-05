@@ -1,6 +1,7 @@
 import os
 
 import boto3
+from botocore.exceptions import ClientError
 import pandas as pd
 from io import StringIO, BytesIO
 import tempfile
@@ -14,18 +15,17 @@ class S3:
         self.s3 = boto3.client('s3', aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
                                     aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"])
     
-    def create_bucket(bucket_name):
+    def create_bucket(self):
         """ Create s3 bucket.
             Restricted to region: ap-southeast-2
         """
-        s3 = boto3.client('s3')
-        s3.create_bucket(Bucket=bucket_name, CreateBucketConfiguration={'LocationConstraint': 'ap-southeast-2'})
+        self.s3.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={'LocationConstraint': 'ap-southeast-2'})
 
     def bucket_exists(self) -> bool:
         try:
             self.s3.head_bucket(Bucket = self.bucket)
             return True
-        except boto3.exceptions.botocore.exceptions.ClientError:
+        except ClientError:
             return False
 
     def put(self, df, key) -> None:
