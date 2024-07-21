@@ -1,3 +1,3 @@
 import duckdb
 
-print(duckdb.execute("SELECT * FROM './fun/data/bankdataset.parquet'").df())
+print(duckdb.sql("SELECT * FROM './fun/data/bankdataset.parquet'"))
